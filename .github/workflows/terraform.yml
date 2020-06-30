@@ -13,6 +13,12 @@ jobs:
       with:
         terraform_version: 0.12.26
 
+    - name: Install tflint
+      run: |
+        curl -L "$(curl -Ls https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" -o tflint.zip
+        unzip -d $PWD/.bin tflint.zip
+        export PATH=$PATH:$PWD/.bin
+
     - name: Run tflint
       run: make tflint
     - name: Run terraform validate
