@@ -20,7 +20,7 @@ tflint: TARGET=tflint_module
 tflint: $(MODULES)
 
 .PHONY: tflint_module
-tflint_module:
+tflint_module: init
 	tflint -c $(PWD)/.tflint.hcl
 
 .PHONY: validate
