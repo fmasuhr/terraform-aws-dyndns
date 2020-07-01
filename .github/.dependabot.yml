@@ -8,7 +8,7 @@ updates:
       - fmasuhr
 
   - package-ecosystem: npm
-    directory: /lambda/src
+    directory: /lambda
     schedule:
       interval: daily
     assignees:
