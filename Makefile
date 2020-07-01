@@ -21,7 +21,7 @@ tflint: $(MODULES)
 
 .PHONY: tflint_module
 tflint_module:
-	tflint
+	tflint -c $(PWD)/.tflint.hcl
 
 .PHONY: validate
 validate: TARGET=validate_module
