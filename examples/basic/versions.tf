@@ -1,9 +1,9 @@
 terraform {
-  required_version = "~> 0.12"
+  required_version = "~> 0.14"
 
   required_providers {
     archive = "~> 1"
-    aws     = "~> 2"
-    random  = "~> 2"
+    aws     = "~> 3"
+    random  = "~> 3"
   }
 }

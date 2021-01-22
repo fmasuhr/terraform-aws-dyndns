@@ -23,7 +23,7 @@ resource "aws_api_gateway_rest_api" "this" {
     schemes = ["https"]
 
     paths = {
-      "${local.apigateway_path}" = {
+      (local.apigateway_path) = {
         get = {
           responses = {}
 
