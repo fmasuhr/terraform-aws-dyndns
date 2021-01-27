@@ -1,6 +1,6 @@
-locals {
-  credentials = "${var.authentication.username}:${var.authentication.password}"
-}
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
 
 resource "aws_lambda_function" "this" {
   function_name = var.name
@@ -12,7 +12,7 @@ resource "aws_lambda_function" "this" {
 
   environment {
     variables = {
-      CREDENTIALS = local.credentials
+      CREDENTIALS = "${var.authentication.username}:${var.authentication.password}"
       ZONE_ID     = var.zone_id
       DOMAIN_NAME = var.domain_name
     }
@@ -51,6 +51,26 @@ resource "aws_iam_role" "this" {
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
 
   tags = var.tags
+}
+
+resource "aws_cloudwatch_log_group" "lambda" {
+  name = "/aws/lambda/${var.name}"
+
+  retention_in_days = 3
+
+  tags = var.tags
+}
+
+data "aws_iam_policy_document" "lambda_cloudwatch_log_group" {
+  statement {
+    actions   = ["logs:DescribeLogStreams"]
+    resources = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
+  }
+
+  statement {
+    actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["${aws_cloudwatch_log_group.lambda.arn}:*"]
+  }
 }
 
 resource "aws_iam_role_policy" "lambda_cloudwatch_log_group" {
