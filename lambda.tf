@@ -5,7 +5,7 @@ data "aws_region" "current" {}
 resource "aws_lambda_function" "this" {
   function_name = var.name
 
-  runtime                        = "nodejs12.x"
+  runtime                        = "nodejs16.x"
   handler                        = "index.handler"
   timeout                        = 5
   reserved_concurrent_executions = 3
